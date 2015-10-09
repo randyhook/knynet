@@ -16,4 +16,4 @@ This project is currently being developed with Python 3.4.3. Unzip the contents 
 The program doesn't do anything outwardly interesting in its current state. A TkInter window will be displayed and a couple of simulated bots will power up and display a few messages. Type quit to power down the bots. Much of the schema is starting to take shape in the code, and I will be providing a diagram shortly so you can see the big picture.
 
 ## Notes
-Thank you for your interest in this project. I will be providing more documentation in the wiki shortly.
+Check out the [wiki](https://github.com/randyhook/knynet/wiki) for more documentation.
