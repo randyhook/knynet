@@ -23,8 +23,8 @@ class SimBrain(Brain):
         messages = list();
 
         for s in self.sensory_data_queue:
-            if (s.data == 'audio'):
-                if ('audio' in self.agencies):
+            if (s.data_type == 'audio'):
+                if 'audio' in self.agencies:
                     for m in self.agencies['audio'].process_sensory_data(s):
                         messages.append(m)
 
