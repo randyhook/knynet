@@ -12,26 +12,28 @@ class SimBrain(Brain):
         self.subowners = subowners
         self.chain_of_command = chain_of_command
 
-        self.sensory_input_queue = list()
-        self.sensory_encoded_history = list()
+        self.sensory_data_queue = list()
 
         self.agencies = dict()
         self.standing_orders = list()
 
-    def process_sensory_input(self):
-        '''Override for Bot.Brain.process_sensory_input() since here we are dealing with events instead of SensoryData'''
+    def process_sensory_data_queue(self):
+        '''Override for Bot.Brain.process_sensory_data_queue() since here we are dealing with SimSensoryData instead of SensoryData'''
 
-        for i in self.sensory_input_queue:
-            if (isinstance(i, AudioEvent)):
+        messages = list();
+
+        for s in self.sensory_data_queue:
+            if (s.data == 'audio'):
                 if ('audio' in self.agencies):
-                    self.process_sensory_encoded(self.agencies['audio'].process(i))
+                    for m in self.agencies['audio'].process_sensory_data(s):
+                        messages.append(m)
 
-    def queue_sensory_input(self, event):
-        '''Override for Bot.Brain.queue_sensory_input() since here we are accepting an event instead of SensoryData'''
+        return messages
 
-        self.sensory_input_queue.append(event)
+    def queue_sensory_data(self, sd):
+        '''Override for Bot.Brain.queue_sensory_data() since here we are accepting an SimSensoryData instead of SensoryData'''
 
-        self.process_sensory_input()
+        self.sensory_data_queue.append(sd)
 
         return []
 

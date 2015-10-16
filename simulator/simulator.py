@@ -9,7 +9,7 @@ from simulator.simhuman import SimHuman
 from simulator.bots.guardianbot import GuardianBot
 from simulator.bots.chairbot import ChairBot
 
-from simulator.events.audioevent import AudioEvent
+from simulator.bots.sensors.simsensorydata import SimSensoryData
 
 class Simulator(Frame):
     '''Simulator class'''
@@ -60,10 +60,9 @@ class Simulator(Frame):
         self.scripts = dict()
         self.scripts['chairbot_to_room'] = dict({
             'time': 1000,
-            'event': AudioEvent(
-                initiator = self.humans['kenny'].serial_number,
-                audio_type = 'voice',
-                audio_data = 'ChairBot. Take me to my room.'
+            'sensory_data': SimSensoryData(
+                data_type = 'audio',
+                data = 'ChairBot. Take me to my room.'
             )
         });
 
@@ -106,8 +105,12 @@ class Simulator(Frame):
                 scripts_run.append(s)
 
                 # send the script to each bot
+                #
+                # right now we are forcing each bot to handle each script. the bot will determine if it is able to handle the script.
+                # we could eventually have the simulator be more realistic by broadcasting events and each bot would have sim sensors
+                # monitoring the environment for events it can react to.
                 for b in iter(self.bots):
-                    self.bots[b].queue_event(self.scripts[s]['event'])
+                    self.bots[b].queue_sensory_data(self.scripts[s]['sensory_data'])
 
         # remove any scripts that were just run so they don't run again
         for s in scripts_run:

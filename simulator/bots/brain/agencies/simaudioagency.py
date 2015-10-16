@@ -4,8 +4,7 @@ from simulator.events.audioevent import AudioEvent
 
 class SimAudioAgency(AudioAgency):
 
-    def process(self, audio_event):
-        '''Process an AudioEvent. This differs from the real AudioAgency which processes SensoryData'''
+    def process_sensory_data(self, sensory_data):
+        '''Process an simulated audio sensory data'''
 
-        if (audio_event.audio_type == 'voice'):
-            return(SpokenLanguage(audio_event.audio_data, audio_event.initiator))
+        #TODO: determine if language is contained in sensory_data

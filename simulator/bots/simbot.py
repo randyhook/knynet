@@ -11,7 +11,8 @@ class SimBot(Bot):
         Bot.__init__(self, serial_number, name, owner, subowners, chain_of_command)
 
         self.brain = SimBrain(serial_number, name, owner, subowners, chain_of_command)
-        self.event_queue = list()
+
+        self.sensory_data_queue = list()
 
     def power_down(self):
         '''Power down the bot'''
@@ -39,23 +40,27 @@ class SimBot(Bot):
 
         return messages
 
-    def queue_event(self, ev):
-        '''Queue an event to handle later'''
+    def queue_sensory_data(self, sd):
+        '''Queue sensory data to handle later'''
 
-        self.event_queue.append(ev)
+        self.sensory_data_queue.append(sd)
 
     def update(self, sim_time):
         '''Main update loop for bot'''
         
         messages = list();
 
-        # check event queue
-        for e in self.event_queue:
-            if (isinstance(e, AudioEvent)):
+        # check sensory data queue
+        for s in self.sensory_data_queue:
+            # since this is a simulation, we don't even know if we can handle the sensory data that as passed to us from Simulator,
+            # so we need to check if we have the right sensor that would have picked it up
+            if (s.data_type == 'audio'):
                 if 'audio' in self.sensors:
-                    for m in self.brain.queue_sensory_input(e):
-                        messages.append(m)
+                    self.brain.queue_sensory_data(s)
 
-        self.event_queue.clear()
+        self.sensory_data_queue.clear()
+
+        for m in self.brain.process_sensory_data_queue():
+            messages.append(m)
 
         return messages

@@ -15,18 +15,18 @@ class Brain:
         self.subowners = subowners
         self.chain_of_command = chain_of_command
     
-        self.sensory_input_queue = list()
-        self.sensory_encoded_history = list()
+        self.sensory_data_queue = list()
 
         self.agencies = dict()
         self.standing_orders = list()
 
-    def process_sensory_encoded(self, sensory_encoded):
-        self.sensory_encoded_history.append(sensory_encoded)
+    def process_sensory_data(self):
+        pass
 
+    def process_sensory_encoded(self, sensory_encoded):
         if isinstance(sensory_encoded, SpokenLanguage):
             if 'natural_language' in self.agencies:
                 self.store_knowledge(self.agencies['natural_language'].process(sensory_encoded.encoded_message, sensory_encoded.spoken_by))
 
-    def store_knowledge(self, knowledge):
+    def queue_sensory_data(self, sd):
         pass
