@@ -17,3 +17,6 @@ The program doesn't do anything outwardly interesting in its current state. A Tk
 
 ## Documentation
 Check out the [wiki](https://github.com/randyhook/knynet/wiki) for extended documentation.
+
+## Credits
+Natural Language algorithms use the [Natural Language Toolkit](http://www.nltk.org).

@@ -1,0 +1,3 @@
+[submodule "bots\\brain\\agencies\\nltk"]
+	path = bots\\brain\\agencies\\nltk
+	url = https://github.com/nltk/nltk.git
