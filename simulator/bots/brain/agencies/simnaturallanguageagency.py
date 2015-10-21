@@ -1,5 +1,5 @@
 from bots.brain.agencies.naturallanguageagency import NaturalLanguageAgency
-import bots.brain.agencies.nltk
+import nltk
 
 class SimNaturalLanguageAgency(NaturalLanguageAgency):
 
@@ -17,7 +17,6 @@ class SimNaturalLanguageAgency(NaturalLanguageAgency):
         messages = list()
 
         if self.containsLanguage(sensory_data.data):
-            #print(nltk.word_tokenize(sensory_data.data))
-            pass
+            print(nltk.word_tokenize(sensory_data.data))
 
         return messages
