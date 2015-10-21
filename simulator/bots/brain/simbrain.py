@@ -28,6 +28,8 @@ class SimBrain(Brain):
                     for m in self.agencies['audio'].process_sensory_data(s):
                         messages.append(m)
 
+        self.sensory_data_queue.clear()
+
         return messages
 
     def queue_sensory_data(self, sd):
