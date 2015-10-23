@@ -3,12 +3,8 @@ from bots.sensors.sensor import Sensor
 class SimSensor(Sensor):
     '''Base class for simulated sensors'''
 
-    def __init__(self, name, brain):
-        # brain arg is so that simulated sensor knows which brain it is connect to; real sensor will be wired to real brain
-
+    def __init__(self, name):
         self.name = name;
-        self.sense_thread = None
-        self.brain_connection = brain
 
     def power_down(self):
         '''Power down the sensor'''

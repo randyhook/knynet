@@ -1,5 +1,5 @@
 # knynet (KennyNet)
-An artificial intelligence network for assisted living.
+A network of intelligent agents for assisted living.
 
 This is a research project at the moment, with aspirations of becoming something much greater, that is attempting to map out the schema of and develop algorithms for a network of artificial intelligent agents to assist those with disabilities. This project's goal is to solve such challenges as:
 * How can a person with multiple impairments live independently with the help of intelligent agents?

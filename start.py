@@ -3,7 +3,7 @@ import sys
 
 # setup search paths
 basedir = os.path.dirname(__file__)
-sys.path.append(basedir + '\\bots\\brain\\agencies\\nltk');
+sys.path.append(basedir + '\\agent\\agencies\\nltk');
 
 from simulator.simulator import Simulator
 

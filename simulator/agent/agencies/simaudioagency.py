@@ -1,9 +1,9 @@
-from bots.brain.agencies.audioagency import AudioAgency
+from agent.agencies.audioagency import AudioAgency
 
 class SimAudioAgency(AudioAgency):
 
-    def __init__(self, brain):
-       self.brain = brain
+    def __init__(self, agent):
+       self.agent = agent
 
     @classmethod
     def audio_contains_language(cls, sensory_data):
@@ -18,8 +18,8 @@ class SimAudioAgency(AudioAgency):
         messages = list()
 
         if SimAudioAgency.audio_contains_language(sensory_data):
-            if 'natural_language' in self.brain.agencies:
-                for m in self.brain.agencies['natural_language'].process_sensory_data(sensory_data):
+            if 'natural_language' in self.agent.agencies:
+                for m in self.agent.agencies['natural_language'].process_sensory_data(sensory_data):
                     messages.append(m)
 
         return messages

@@ -6,8 +6,9 @@ from tkinter import ttk
 from simulator.world import World
 from simulator.tobii import Tobii
 from simulator.simhuman import SimHuman
-from simulator.bots.guardianbot import GuardianBot
-from simulator.bots.chairbot import ChairBot
+
+from simulator.agent.simguardianagent import SimGuardianAgent
+from simulator.agent.simwheelchairagent import SimWheelchairAgent
 
 from simulator.bots.sensors.simsensorydata import SimSensoryData
 
@@ -34,35 +35,44 @@ class Simulator(Frame):
             )
         });
 
-        self.bots = dict({
-            'guardianbot': GuardianBot(
-                name = 'GuardianBot',
+        self.agents = dict({
+            'guardian': SimGuardianAgent(
+                name = 'Guardian',
                 serial_number = self.world.generate_new_serial_number(),
-                owner = self.humans['randy']
+                owner = self.humans['randy'],
+                subowners = [],
+                chain_of_command = []
             ),
-            'chairbot': ChairBot(
-                name = 'ChairBot',
+            'wheelchair': SimWheelchairAgent(
+                name = 'Chair',
                 serial_number = self.world.generate_new_serial_number(),
                 owner = self.humans['randy'],
                 subowners = [
                     self.humans['kenny'].serial_number
-                ]
+                ],
+                chain_of_command = []
             )
         });
 
-        self.bots['chairbot'].chain_of_command = [self.bots['guardianbot']]
-        self.bots['chairbot'].location = self.world.rooms['living_room']
-        self.humans['kenny'].location = self.bots['chairbot'].location
+        self.agents['guardian'].set_agencies()
+        self.agents['guardian'].set_sensors()
+
+        self.agents['wheelchair'].chain_of_command = [self.agents['guardian']]
+        self.agents['wheelchair'].location = self.world.rooms['living_room']
+        self.agents['wheelchair'].set_agencies()
+        self.agents['wheelchair'].set_sensors()
+
+        self.humans['kenny'].location = self.agents['wheelchair'].location
 
         self.tobii = Tobii()
-        self.tobii.location =  self.bots['chairbot'].location
+        self.tobii.location =  self.agents['wheelchair'].location
 
         self.scripts = dict()
-        self.scripts['chairbot_to_room'] = dict({
+        self.scripts['wheelchair_to_room'] = dict({
             'time': 1000,
             'sensory_data': SimSensoryData(
                 data_type = 'audio',
-                data = 'ChairBot. Take me to my room.'
+                data = 'Chair. Take me to my room.'
             )
         });
 
@@ -91,9 +101,12 @@ class Simulator(Frame):
 
     def quit_simulation(self):
         # shut down the bots
-        for b in iter(self.bots):
-            messages = self.bots[b].power_down()
+        for a in iter(self.agents):
+            pass
+            '''
+            messages = self.agents[a].power_down()
             self.display_output(messages)
+            '''
 
         #quit()
 
@@ -104,13 +117,13 @@ class Simulator(Frame):
             if self.sim_time > self.scripts[s]['time']:
                 scripts_run.append(s)
 
-                # send the script to each bot
+                # send the script to each agent
                 #
-                # right now we are forcing each bot to handle each script. the bot will determine if it is able to handle the script.
-                # we could eventually have the simulator be more realistic by broadcasting events and each bot would have sim sensors
+                # right now we are forcing each agent to handle each script. the agent will determine if it is able to handle the script.
+                # we could eventually have the simulator be more realistic by broadcasting events and each agent would have sim sensors
                 # monitoring the environment for events it can react to.
-                for b in iter(self.bots):
-                    self.bots[b].queue_sensory_data(self.scripts[s]['sensory_data'])
+                for a in iter(self.agents):
+                    self.agents[a].queue_sensory_data(self.scripts[s]['sensory_data'])
 
         # remove any scripts that were just run so they don't run again
         for s in scripts_run:
@@ -140,9 +153,11 @@ class Simulator(Frame):
         '''Start the simulation'''
 
         # start up the bots
-        for b in iter(self.bots):
-            messages = self.bots[b].power_up()
+        '''
+        for a in iter(self.agents):
+            messages = self.agents[a].power_up()
             self.display_output(messages)
+        '''
 
         self.after(self.update_delta_milliseconds, self.update_sim)
         self.mainloop()
@@ -156,8 +171,8 @@ class Simulator(Frame):
         self.run_scripts()
 
         # tell each bot to update itself
-        for b in iter(self.bots):
-            messages = self.bots[b].update(self.sim_time)
+        for a in iter(self.agents):
+            messages = self.agents[a].update(self.sim_time)
             self.display_output(messages)
 
         # run this function again after time

@@ -1,10 +1,10 @@
-from bots.brain.agencies.naturallanguageagency import NaturalLanguageAgency
+from agent.agencies.naturallanguageagency import NaturalLanguageAgency
 import nltk
 
 class SimNaturalLanguageAgency(NaturalLanguageAgency):
 
-    def __init__(self, brain):
-       self.brain = brain
+    def __init__(self, agent):
+       self.agent = agent
 
     def containsLanguage(self, data):
         '''Check if audio data contains language'''
@@ -17,6 +17,9 @@ class SimNaturalLanguageAgency(NaturalLanguageAgency):
         messages = list()
 
         if self.containsLanguage(sensory_data.data):
-            print(nltk.word_tokenize(sensory_data.data))
+            tokens = nltk.word_tokenize(sensory_data.data)
+            pos = nltk.pos_tag(tokens)
+            print(pos)
+            # TODO: send to decision engine
 
         return messages
