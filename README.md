@@ -11,7 +11,7 @@ This project is drawing its greatest influences at present from:
 * Marvin Minsky's Society of Mind
 
 ## Installation and Starting
-This project is currently being developed with Python 3.4.3. Unzip the contents of this repository in a folder, and assuming Python is in your path, type start.py. There are currently no other dependencies.
+This project is currently being developed with Python 3.4.3. Clone this repository, and assuming Python is in your path, type start.py. The Natural Language Toolkit is implemented as a submodule, so you will need to run git submodule init and git submodule update.
 
 The program doesn't do anything outwardly interesting in its current state. A TkInter window will be displayed and a couple of simulated bots will power up and display a few messages. Type quit to power down the bots. Much of the schema is starting to take shape in the code, and I will be continuing to document the architecture as the project progresses.
 
