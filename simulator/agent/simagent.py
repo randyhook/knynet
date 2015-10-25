@@ -6,17 +6,13 @@ class SimAgent(Agent):
     def process_sensory_data_queue(self):
         '''Override for Bot.Brain.process_sensory_data_queue() since here we are dealing with SimSensoryData instead of SensoryData'''
 
-        messages = list();
-
         for s in self.sensory_data_queue:
             if (s.data_type == 'audio'):
                 if 'audio' in self.agencies:
-                    for m in self.agencies['audio'].process_sensory_data(s):
-                        messages.append(m)
+                    encoded = self.agencies['audio'].process_sensory_data(s)
+                    self.decision_engine.process_sensory_encoded(encoded)                        
 
         self.sensory_data_queue.clear()
-
-        return messages
 
     def queue_sensory_data(self, sd):
         '''Override for Agent.queue_sensory_data() since here we are accepting an SimSensoryData instead of actual SensoryData'''
@@ -32,9 +28,4 @@ class SimAgent(Agent):
     def update(self, sim_time):
         '''Main update loop for agent'''
         
-        messages = list();
-
-        for m in self.process_sensory_data_queue():
-            messages.append(m)
-
-        return messages
+        self.process_sensory_data_queue()

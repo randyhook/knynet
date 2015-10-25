@@ -15,11 +15,6 @@ class SimAudioAgency(AudioAgency):
     def process_sensory_data(self, sensory_data):
         '''Process an simulated audio sensory data'''
 
-        messages = list()
-
         if SimAudioAgency.audio_contains_language(sensory_data):
             if 'natural_language' in self.agent.agencies:
-                for m in self.agent.agencies['natural_language'].process_sensory_data(sensory_data):
-                    messages.append(m)
-
-        return messages
+                return self.agent.agencies['natural_language'].process_sensory_data(sensory_data)

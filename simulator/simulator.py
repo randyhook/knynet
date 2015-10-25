@@ -72,7 +72,8 @@ class Simulator(Frame):
             'time': 1000,
             'sensory_data': SimSensoryData(
                 data_type = 'audio',
-                data = 'Chair. Take me to my room.'
+                data = 'Chair. Take me to my room.',
+                origin = self.humans['kenny']
             )
         });
 
@@ -172,8 +173,7 @@ class Simulator(Frame):
 
         # tell each bot to update itself
         for a in iter(self.agents):
-            messages = self.agents[a].update(self.sim_time)
-            self.display_output(messages)
+            self.agents[a].update(self.sim_time)
 
         # run this function again after time
         self.after(self.update_delta_milliseconds, self.update_sim)

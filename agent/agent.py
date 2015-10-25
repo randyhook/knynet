@@ -1,3 +1,5 @@
+from agent.decisionengine import DecisionEngine
+
 class Agent():
     '''Base Agent class'''
 
@@ -10,6 +12,8 @@ class Agent():
 
         self.sensors = dict()
         self.sensory_data_queue = list()
+
+        self.decision_engine = DecisionEngine(self)
 
         self.agencies = dict()
         self.standing_orders = list()

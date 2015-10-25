@@ -1,6 +1,8 @@
 from agent.agencies.naturallanguageagency import NaturalLanguageAgency
 import nltk
 
+from agent.sensoryencoded.spokenlanguage import SpokenLanguage
+
 class SimNaturalLanguageAgency(NaturalLanguageAgency):
 
     def __init__(self, agent):
@@ -14,12 +16,8 @@ class SimNaturalLanguageAgency(NaturalLanguageAgency):
     def process_sensory_data(self, sensory_data):
         '''Process simulated audio sensory data'''
 
-        messages = list()
-
         if self.containsLanguage(sensory_data.data):
             tokens = nltk.word_tokenize(sensory_data.data)
             pos = nltk.pos_tag(tokens)
-            print(pos)
-            # TODO: send to decision engine
 
-        return messages
+            return(SpokenLanguage(message = pos, spoken_by = sensory_data.origin))
