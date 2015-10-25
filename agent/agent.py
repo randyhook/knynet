@@ -1,3 +1,4 @@
+from agent.memory import Memory
 from agent.decisionengine import DecisionEngine
 
 class Agent():
@@ -13,6 +14,7 @@ class Agent():
         self.sensors = dict()
         self.sensory_data_queue = list()
 
+        self.memory = Memory()
         self.decision_engine = DecisionEngine(self)
 
         self.agencies = dict()
