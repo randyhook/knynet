@@ -27,11 +27,11 @@ class DecisionEngine():
     def process_language(self, encoded):
         if (self.i_am_being_addressed(encoded.encoded_message)):
             # TODO: check if this is a command, and if so, if addresser has the authority to issue command to this agent
-            print(self.agent.name + ' acknowledging.')
+            self.agent.memory.store_action(self.agent.name + ' acknowledging.')
 
     def process_sensory_encoded(self, encoded):
         # store the data to memory
-        self.agent.memory.store(encoded) 
+        self.agent.memory.store_sensory_encoded(encoded) 
 
         # process the data into knowledge
         if (encoded.data_type == 'language'):

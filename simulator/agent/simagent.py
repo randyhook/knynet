@@ -3,6 +3,9 @@ from agent.agent import Agent
 class SimAgent(Agent):
     '''Base Agent class for use in Simulator'''
 
+    def power_up(self):
+        self.memory.store_action('powered up')
+
     def process_sensory_data_queue(self):
         '''Override for Bot.Brain.process_sensory_data_queue() since here we are dealing with SimSensoryData instead of SensoryData'''
 

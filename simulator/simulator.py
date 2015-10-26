@@ -102,7 +102,7 @@ class Simulator(Frame):
 
     def quit_simulation(self):
         # shut down the bots
-        for a in iter(self.agents):
+        for a in self.agents:
             pass
             '''
             messages = self.agents[a].power_down()
@@ -123,7 +123,7 @@ class Simulator(Frame):
                 # right now we are forcing each agent to handle each script. the agent will determine if it is able to handle the script.
                 # we could eventually have the simulator be more realistic by broadcasting events and each agent would have sim sensors
                 # monitoring the environment for events it can react to.
-                for a in iter(self.agents):
+                for a in self.agents:
                     self.agents[a].queue_sensory_data(self.scripts[s]['sensory_data'])
 
         # remove any scripts that were just run so they don't run again
@@ -154,11 +154,8 @@ class Simulator(Frame):
         '''Start the simulation'''
 
         # start up the bots
-        '''
-        for a in iter(self.agents):
-            messages = self.agents[a].power_up()
-            self.display_output(messages)
-        '''
+        for a in self.agents:
+            self.agents[a].power_up()
 
         self.after(self.update_delta_milliseconds, self.update_sim)
         self.mainloop()
@@ -172,7 +169,7 @@ class Simulator(Frame):
         self.run_scripts()
 
         # tell each bot to update itself
-        for a in iter(self.agents):
+        for a in self.agents:
             self.agents[a].update(self.sim_time)
 
         # run this function again after time
