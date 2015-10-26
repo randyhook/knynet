@@ -20,4 +20,4 @@ class SimNaturalLanguageAgency(NaturalLanguageAgency):
             tokens = nltk.word_tokenize(sensory_data.data)
             pos = nltk.pos_tag(tokens)
 
-            return(SpokenLanguage(message = pos, spoken_by = sensory_data.origin))
+            return(SpokenLanguage(raw_message = sensory_data.data, encoded_message = pos, spoken_by = sensory_data.origin))

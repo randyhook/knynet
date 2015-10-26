@@ -2,5 +2,6 @@ class SensoryEncoded():
     '''Base class for encoded sensory data'''
 
     def __init__(self):
-        self.data_type = ''
-        self.encoded_message = ''
+        data_type = ''
+        raw_message = ''
+        encoded_message = ''

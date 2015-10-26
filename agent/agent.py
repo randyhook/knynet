@@ -14,7 +14,7 @@ class Agent():
         self.sensors = dict()
         self.sensory_data_queue = list()
 
-        self.memory = Memory()
+        self.memory = Memory(self)
         self.decision_engine = DecisionEngine(self)
 
         self.agencies = dict()

@@ -1,4 +1,5 @@
 import random
+from base.memoryobserver import MemoryObserver
 
 from tkinter import *
 from tkinter import ttk
@@ -12,7 +13,7 @@ from simulator.agent.simwheelchairagent import SimWheelchairAgent
 
 from simulator.bots.sensors.simsensorydata import SimSensoryData
 
-class Simulator(Frame):
+class Simulator(Frame, MemoryObserver):
     '''Simulator class'''
 
     def __init__(self):
@@ -84,6 +85,11 @@ class Simulator(Frame):
         self.start_simulation()
 
     def display_output(self, messages):
+        if not isinstance(messages, list):
+            message = messages
+            messages = list();
+            messages.append(message)
+
         for m in messages:
             self.text_output.insert(INSERT, "\n" + str(m))
 
@@ -153,6 +159,10 @@ class Simulator(Frame):
     def start_simulation(self):
         '''Start the simulation'''
 
+        # make the simulation an observer of each agent's memory activity
+        for a in self.agents:
+            self.agents[a].memory.attach_observer(self)
+
         # start up the bots
         for a in self.agents:
             self.agents[a].power_up()
@@ -161,6 +171,9 @@ class Simulator(Frame):
         self.mainloop()
 
         return
+
+    def update_from_memory(self, message):
+        self.display_output(message)
 
     def update_sim(self):
         # increment the time counter
