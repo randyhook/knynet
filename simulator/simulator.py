@@ -1,5 +1,5 @@
 import random
-from base.memoryobserver import MemoryObserver
+from base.observer import Observer
 
 from tkinter import *
 from tkinter import ttk
@@ -13,7 +13,7 @@ from simulator.agent.simwheelchairagent import SimWheelchairAgent
 
 from simulator.bots.sensors.simsensorydata import SimSensoryData
 
-class Simulator(Frame, MemoryObserver):
+class Simulator(Frame, Observer):
     '''Simulator class'''
 
     def __init__(self):
@@ -172,8 +172,8 @@ class Simulator(Frame, MemoryObserver):
 
         return
 
-    def update_from_memory(self, message):
-        self.display_output(message)
+    def update_from_observable(self, notification):
+        self.display_output('[' + notification.message_from + '](' + notification.from_function + ') ' + notification.message)
 
     def update_sim(self):
         # increment the time counter

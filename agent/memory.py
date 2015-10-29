@@ -1,4 +1,5 @@
 from base.observable import Observable
+from base.observablenotification import ObservableNotification
 from datetime import datetime
 
 class Memory(Observable):
@@ -16,13 +17,14 @@ class Memory(Observable):
     def detach_observer(self, observer):
         pass
 
-    def notify_observer(self, message):
+    def notify_observer(self, notification):
         for o in self.observers:
-            o.update_from_memory(message)
+            o.update_from_observable(notification)
 
     def store_action(self, message):
         self.action_log.append((datetime.now(), message))
 
     def store_sensory_encoded(self, data):
         self.sensory_encoded_storage.append((datetime.now(), data))
-        self.notify_observer(self.agent.name + ' storing sensory ' + data.raw_message)
+
+        self.notify_observer(ObservableNotification(self.agent.name, 'store_sensory_encoded', data.raw_message))

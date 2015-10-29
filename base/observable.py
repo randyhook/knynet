@@ -14,5 +14,5 @@ class Observable(object, metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def notify_observer(self):
+    def notify_observer(self, notification):
         pass
