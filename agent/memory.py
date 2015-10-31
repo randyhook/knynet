@@ -23,8 +23,8 @@ class Memory(Observable):
 
     def store_action(self, message):
         self.action_log.append((datetime.now(), message))
+        self.notify_observer(ObservableNotification(self.agent.name, 'store_action', message))
 
     def store_sensory_encoded(self, data):
         self.sensory_encoded_storage.append((datetime.now(), data))
-
         self.notify_observer(ObservableNotification(self.agent.name, 'store_sensory_encoded', data.raw_message))

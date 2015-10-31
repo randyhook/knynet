@@ -49,7 +49,7 @@ class Simulator(Frame, Observer):
                 serial_number = self.world.generate_new_serial_number(),
                 owner = self.humans['randy'],
                 subowners = [
-                    self.humans['kenny'].serial_number
+                    self.humans['kenny']
                 ],
                 chain_of_command = []
             )
@@ -109,11 +109,7 @@ class Simulator(Frame, Observer):
     def quit_simulation(self):
         # shut down the bots
         for a in self.agents:
-            pass
-            '''
-            messages = self.agents[a].power_down()
-            self.display_output(messages)
-            '''
+            self.agents[a].shut_down()
 
         #quit()
 
@@ -165,7 +161,7 @@ class Simulator(Frame, Observer):
 
         # start up the bots
         for a in self.agents:
-            self.agents[a].power_up()
+            self.agents[a].start_up()
 
         self.after(self.update_delta_milliseconds, self.update_sim)
         self.mainloop()
@@ -181,7 +177,7 @@ class Simulator(Frame, Observer):
 
         self.run_scripts()
 
-        # tell each bot to update itself
+        # tell each agent to update itself
         for a in self.agents:
             self.agents[a].update(self.sim_time)
 
