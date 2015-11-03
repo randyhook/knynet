@@ -1,5 +1,7 @@
 from agent.memory import Memory
+from agent.goal import Goal
 import nltk
+from datetime import datetime
 
 class DecisionEngine():
     '''Base Decision Engine class'''
@@ -43,7 +45,7 @@ class DecisionEngine():
             if is_command:
                 # check if addresser has the authority to issue command to this agent
                 if encoded.spoken_by == self.agent.owner or encoded.spoken_by in self.agent.subowners or encoded.spoken_by in self.agent.chain_of_command:
-                    self.agent.memory.store_action(self.agent.name + ' acknowledging.')
+                    self.agent.memory.store_goal(Goal(encoded, datetime.now()))
 
     def process_sensory_encoded(self, encoded):
         # store the data to memory

@@ -8,7 +8,9 @@ class Memory(Observable):
     def __init__(self, agent):
         self.observers = list()
         self.agent = agent
+
         self.sensory_encoded_storage = list()
+        self.goals = list()
         self.action_log = list()
 
     def attach_observer(self, observer):
@@ -24,6 +26,10 @@ class Memory(Observable):
     def store_action(self, message):
         self.action_log.append((datetime.now(), message))
         self.notify_observer(ObservableNotification(self.agent.name, 'store_action', message))
+
+    def store_goal(self, goal):
+        self.goals.append(goal)
+        self.notify_observer(ObservableNotification(self.agent.name, 'store_goal', goal.raw_message))
 
     def store_sensory_encoded(self, data):
         self.sensory_encoded_storage.append((datetime.now(), data))
