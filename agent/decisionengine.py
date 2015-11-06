@@ -2,7 +2,6 @@ from agent.memory import Memory
 from agent.goal import Goal
 from agent.goal import GoalType
 
-import nltk
 from datetime import datetime
 
 class DecisionEngine():
@@ -35,6 +34,29 @@ class DecisionEngine():
 
         return True
 
+    def prioritize_goals(self):
+        pass
+
+    def process_command(self, encoded):
+        # check if addresser has the authority to issue command to this agent
+        if encoded.spoken_by == self.agent.owner or encoded.spoken_by in self.agent.subowners or encoded.spoken_by in self.agent.chain_of_command:
+            candidate_goal = self.agent.formulate_goal(GoalType.order, encoded)
+
+            # check if this command can be carried out
+
+            # check if the command conflicts with any existing internal goals
+            conflicted = False
+            for g in self.agent.memory.goals:
+                # TODO: if conflict, conflicted_goals.append(g)
+                pass
+
+            if not conflicted:
+                self.agent.memory.store_goal(candidate_goal)
+                self.prioritize_goals()
+            else:
+                # TODO: resolve conflicts
+                pass
+
     def process_language(self, encoded):
         # check if this agent is being addressed
         if (self.i_am_being_addressed(encoded.encoded_message)):
@@ -42,12 +64,7 @@ class DecisionEngine():
             is_command = False
             if ('natural_language' in self.agent.agencies):
                 if self.agent.agencies['natural_language'].is_command(encoded.encoded_message):
-                    is_command = True
-
-            if is_command:
-                # check if addresser has the authority to issue command to this agent
-                if encoded.spoken_by == self.agent.owner or encoded.spoken_by in self.agent.subowners or encoded.spoken_by in self.agent.chain_of_command:
-                    self.agent.memory.store_goal(Goal(GoalType.order, encoded, datetime.now()))
+                    self.process_command(encoded)
 
     def process_sensory_encoded(self, encoded):
         # store the data to memory

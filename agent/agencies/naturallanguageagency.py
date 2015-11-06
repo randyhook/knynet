@@ -1,3 +1,5 @@
+import nltk
+
 class NaturalLanguageAgency:
     '''Base class for processing natural language'''
 
@@ -12,6 +14,18 @@ class NaturalLanguageAgency:
                 break;
 
         return addressee
+
+    def get_messages_from_command(self, command):
+        '''Get the messages from a command without the addressee'''
+        sentences = nltk.sent_tokenize(command)
+        del sentences[0]
+
+        parsed = list()
+        for s in sentences:
+            tokens = nltk.word_tokenize(s)
+            parsed.append(nltk.pos_tag(tokens))
+
+        return parsed
 
     def is_command(self, message):
         is_command = False

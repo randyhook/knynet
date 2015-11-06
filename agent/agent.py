@@ -1,5 +1,7 @@
 from agent.memory import Memory
 from agent.decisionengine import DecisionEngine
+from agent.goal import Goal
+from agent.goal import GoalType
 
 class Agent():
     '''Base Agent class'''
@@ -19,6 +21,9 @@ class Agent():
 
         self.agencies = dict()
         self.standing_orders = list()
+
+    def formulate_goal(self, goal_type, encoded):
+        return Goal(GoalType.order, encoded)
 
     def process_sensory_data_queue(self):
         pass
