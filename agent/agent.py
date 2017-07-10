@@ -1,29 +1,51 @@
-from agent.memory import Memory
-from agent.decisionengine import DecisionEngine
-from agent.goal import Goal
-from agent.goal import GoalType
+from utility.Observable import Observable
 
 class Agent():
-    '''Base Agent class'''
 
-    def __init__(self, serial_number, name, owner, subowners, chain_of_command):
-        self.serial_number = serial_number
+    def __init__(self, name, owner):
+
         self.name = name
         self.owner = owner
-        self.subowners = subowners
-        self.chain_of_command = chain_of_command
 
-        self.sensors = dict()
-        self.sensory_data_queue = list()
+        self.memory = [];
+        self.agencies = {}
+        self.observable = Observable()
 
-        self.memory = Memory(self)
-        self.decision_engine = DecisionEngine(self)
+    def addAgency(self, agency):
+        self.agencies[agency.name] = agency
 
-        self.agencies = dict()
-        self.standing_orders = list()
+    def hasAgency(self, agencyName):
+        
+        matchFound = False
 
-    def formulate_goal(self, goal_type, encoded):
-        return Goal(GoalType.order, encoded)
+        for a in list(self.agencies.keys()):
+            if agencyName == a:
+                matchFound = True
+                break;
 
-    def process_sensory_data_queue(self):
-        pass
+        return matchFound
+
+    def receiveSensoryData(self, data):
+
+        if self.hasAgency(data.sensoryType):
+
+            self.memory.append(self.agencies[data.sensoryType].processSensoryData(data))
+
+            if (data.sensoryType == 'Audio'):
+
+                if self.hasAgency('Language'):
+
+                    self.observable.broadcast('Checking audio for language.')
+
+                    languageEncoded = self.agencies['Language'].processSensoryData(data)
+
+                    if languageEncoded is not None:
+
+                        self.observable.broadcast('Language found. Processing.')
+
+                        if self.agencies['Language'].isCommandToMe(languageEncoded, self.name):
+                            self.observable.broadcast('This is a command to me.')
+
+                        else:
+
+                            self.observable.broadcast('This is not a command to me.')

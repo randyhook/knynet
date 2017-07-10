@@ -9,14 +9,17 @@ This is a research project at the moment, with aspirations of becoming something
 This project is drawing its greatest influences at present from:
 * Isaac Asimov's robots
 * Marvin Minsky's Society of Mind
+* Countless researchers in the AI field that I look up to
 
 ## Installation and Starting
-This project is currently being developed with Python 3.4.3. Clone this repository, and assuming Python is in your path, type start.py. The Natural Language Toolkit is implemented as a submodule, so you will need to run git submodule init and git submodule update.
-
-The program doesn't do anything outwardly interesting in its current state. A TkInter window will be displayed and a couple of simulated bots will power up and display a few messages. Type quit to power down the bots. Much of the schema is starting to take shape in the code, and I will be continuing to document the architecture as the project progresses.
+This project is currently being developed with Python. Clone this repository, and assuming Python is in your path, type start.py. The Natural Language Toolkit is implemented as a submodule, so you will need to it, preferably using pip (e.g. python -m pip install nltk)
 
 ## Documentation
 Check out the [wiki](https://github.com/randyhook/knynet/wiki) for extended documentation.
 
 ## Credits
 Natural Language algorithms use the [Natural Language Toolkit](http://www.nltk.org).
+
+## Changes
+
+2017-07-03 I've started a major retool, so if you've seen this repo before, it is now drastically different. You may view the history if you are curious about any previous code.

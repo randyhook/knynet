@@ -1,3 +1,0 @@
-[submodule "agent\\agencies\\nltk"]
-	path = agent\\agencies\\nltk
-	url = https://github.com/nltk/nltk.git
