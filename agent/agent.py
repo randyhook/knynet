@@ -12,14 +12,22 @@ class Agent():
         self.observable = Observable()
 
     def addAgency(self, agency):
+
         self.agencies[agency.name] = agency
 
     def hasAgency(self, agencyName):
         
         matchFound = False
 
+        # rename passed in agency name to more general agency if appropriate
+        if agencyName.lower() == 'weight':
+
+            agencyName = 'physical'
+
         for a in list(self.agencies.keys()):
-            if agencyName == a:
+
+            if agencyName.lower() == a.lower():
+
                 matchFound = True
                 break;
 
@@ -28,10 +36,10 @@ class Agent():
     def receiveSensoryData(self, data):
 
         if self.hasAgency(data.sensoryType):
-
+           
             self.memory.append(self.agencies[data.sensoryType].processSensoryData(data))
 
-            if (data.sensoryType == 'Audio'):
+            if data.sensoryType == 'Audio':
 
                 if self.hasAgency('Language'):
 
@@ -49,3 +57,9 @@ class Agent():
                         else:
 
                             self.observable.broadcast('This is not a command to me.')
+
+            elif data.sensoryType == 'Weight':
+
+                if self.hasAgency('Physical'):
+
+                    self.observable.broadcast('Processing sensed weight.')

@@ -38,20 +38,40 @@ class SimBot(Bot):
         
         self.logStatusMessage(msg)
 
-    def update(self):
-        
-        audioSensor = self.hasSensor('Audio')
+    def receiveStimuli(self, stimuli):
 
-        if audioSensor is not None:
+        terms = stimuli.split(' ')
 
-            rawAudio = self.sim.getRawAudio()
+        if len(terms) < 2:
+            return
 
-            if len(rawAudio) > 0:
+        for s in self.sensors:
 
-                self.logStatusMessage(self.name + ': Receiving raw audio.')
+            if s.sensorType.lower() == terms[0].lower():
+                
+                if terms[0].lower() == 'weight':
+                    
+                    self.logStatusMessage(self.name + ': Sensing weight.')
 
-                for a in rawAudio:
-
-                    sData = audioSensor.receiveAudio(a)
+                    sData = s.receiveWeight(terms[1])
 
                     self.agent.receiveSensoryData(sData)
+
+    def updateFromEnvironment(self):
+        
+        envAudio = self.sim.getEnvAudio()
+
+        for s in self.sensors:
+
+            if s.sensorType == 'Audio':
+
+                if len(envAudio) > 0:
+
+                    self.logStatusMessage(self.name + ': Sensing audio.')
+
+                for a in envAudio:
+
+                    sData = s.receiveAudio(a)
+
+                    self.agent.receiveSensoryData(sData)
+
