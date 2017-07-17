@@ -49,7 +49,7 @@ class SimBot(Bot):
 
             if s.sensorType.lower() == terms[0].lower():
                 
-                if terms[0].lower() == 'weight':
+                if terms[0].lower() == 'newton':
                     
                     self.logStatusMessage(self.name + ': Sensing weight.')
 

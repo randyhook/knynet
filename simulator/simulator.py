@@ -4,7 +4,7 @@ from simulator.SimHuman import SimHuman
 from simulator.SimBot import SimBot
 
 from simulator.sensors.SimAudioSensor import SimAudioSensor
-from simulator.sensors.SimWeightSensor import SimWeightSensor
+from simulator.sensors.SimNewtonSensor import SimNewtonSensor
 
 from agency.AudioAgency import AudioAgency
 from agency.LanguageAgency import LanguageAgency
@@ -57,7 +57,7 @@ class Simulator(Frame):
         # create the chairbot
         chairbot = SimBot(self, 'Chairbot', self.humans['Randy'])
         chairbot.addSensor(SimAudioSensor(chairbot))
-        chairbot.addSensor(SimWeightSensor(chairbot))
+        chairbot.addSensor(SimNewtonSensor(chairbot))
         chairbot.agent.addAgency(AudioAgency())
         chairbot.agent.addAgency(LanguageAgency())
         chairbot.agent.addAgency(PhysicalAgency())

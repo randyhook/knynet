@@ -1,3 +1,4 @@
+from agent.Belief import Belief
 from utility.Observable import Observable
 
 class Agent():
@@ -9,6 +10,7 @@ class Agent():
 
         self.memory = [];
         self.agencies = {}
+        self.belief = Belief()
         self.observable = Observable()
 
     def addAgency(self, agency):
@@ -20,7 +22,7 @@ class Agent():
         matchFound = False
 
         # rename passed in agency name to more general agency if appropriate
-        if agencyName.lower() == 'weight':
+        if agencyName.lower() == 'newtons':
 
             agencyName = 'physical'
 
@@ -37,9 +39,9 @@ class Agent():
 
         if self.hasAgency(data.sensoryType):
            
-            self.memory.append(self.agencies[data.sensoryType].processSensoryData(data))
+            #self.memory.append(self.agencies[data.sensoryType].processSensoryData(data))
 
-            if data.sensoryType == 'Audio':
+            if data.sensoryType.lower() == 'audio':
 
                 if self.hasAgency('Language'):
 
@@ -58,8 +60,10 @@ class Agent():
 
                             self.observable.broadcast('This is not a command to me.')
 
-            elif data.sensoryType == 'Weight':
+            elif data.sensoryType.lower() == 'newtons':
 
                 if self.hasAgency('Physical'):
 
                     self.observable.broadcast('Processing sensed weight.')
+
+                    self.belief.updateFromSensor(self.agencies['Physical'].processSensoryData(data))
