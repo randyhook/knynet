@@ -9,3 +9,9 @@ class Bot:
 
         self.name = name
         self.owner = owner
+
+    def updateInternalState(self):
+
+        if self.agent.specializedAgency is not None:
+
+            self.agent.agencies[self.agent.specializedAgency].update()

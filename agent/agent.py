@@ -9,9 +9,17 @@ class Agent():
         self.owner = owner
 
         self.memory = [];
-        self.agencies = {}
         self.belief = Belief()
         self.observable = Observable()
+
+        self.agencies = {}
+
+        '''
+        key in self.agencies specifiying this agent's specialized agency
+
+        for example, ChairBot's specialized agency is Wheelchair
+        '''
+        self.specializedAgent = None
 
     def addAgency(self, agency):
 
@@ -22,7 +30,7 @@ class Agent():
         matchFound = False
 
         # rename passed in agency name to more general agency if appropriate
-        if agencyName.lower() == 'newtons':
+        if agencyName.lower() == 'newton':
 
             agencyName = 'physical'
 
@@ -60,10 +68,14 @@ class Agent():
 
                             self.observable.broadcast('This is not a command to me.')
 
-            elif data.sensoryType.lower() == 'newtons':
+            elif data.sensoryType.lower() == 'newton':
 
                 if self.hasAgency('Physical'):
 
                     self.observable.broadcast('Processing sensed weight.')
 
-                    self.belief.updateFromSensor(self.agencies['Physical'].processSensoryData(data))
+                    self.agencies['Physical'].processSensoryData(data)
+
+                    if self.specializedAgency is not None:
+
+                        self.agencies[self.specializedAgency].processSensoryData(data)

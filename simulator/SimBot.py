@@ -38,22 +38,22 @@ class SimBot(Bot):
         
         self.logStatusMessage(msg)
 
-    def receiveStimuli(self, stimuli):
+    def receiveStimuli(self, sensorName, stimuli):
 
         terms = stimuli.split(' ')
 
-        if len(terms) < 2:
+        if len(terms) < 1:
             return
 
         for s in self.sensors:
 
-            if s.sensorType.lower() == terms[0].lower():
-                
-                if terms[0].lower() == 'newton':
-                    
-                    self.logStatusMessage(self.name + ': Sensing weight.')
+            if s.name.lower() == sensorName.lower():
 
-                    sData = s.receiveWeight(terms[1])
+                if s.sensorType.lower() == 'newton':
+                    
+                    self.logStatusMessage(self.name + ': Sensing newtons.')
+
+                    sData = s.receiveWeight(terms[0])
 
                     self.agent.receiveSensoryData(sData)
 
@@ -63,7 +63,7 @@ class SimBot(Bot):
 
         for s in self.sensors:
 
-            if s.sensorType == 'Audio':
+            if s.sensorType.lower() == 'audio':
 
                 if len(envAudio) > 0:
 

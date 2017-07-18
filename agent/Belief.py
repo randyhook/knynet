@@ -3,7 +3,9 @@ from environment.SensoryEncoded import SensoryEncoded
 class Belief():
 
     def __init__(self):
-        pass
 
-    def updateFromSensor(self, sensoryEncoded):
-        pass
+        self.statements = []
+
+    def add(self, statement, value):
+
+        self.statements.append((statement, value))

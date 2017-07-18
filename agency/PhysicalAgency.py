@@ -3,8 +3,11 @@ from environment.PhysicalEncoded import PhysicalEncoded
 
 class PhysicalAgency(Agency):
 
-    def __init__(self):
+    def __init__(self, agent):
+
         self.name = 'Physical'
+        self.agent = agent
 
     def processSensoryData(self, data):
-        return PhysicalEncoded(data.sensoryType, data)
+        
+        pass

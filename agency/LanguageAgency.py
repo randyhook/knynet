@@ -8,8 +8,10 @@ class LanguageAgency(Agency):
 
     PUNCTUATION = [',', '.', '!', '?']
 
-    def __init__(self):
+    def __init__(self, agent):
+
         self.name = 'Language'
+        self.agent = agent
 
     def isCommandToMe(self, languageEncoded, myName):
         

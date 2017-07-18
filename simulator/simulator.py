@@ -9,6 +9,7 @@ from simulator.sensors.SimNewtonSensor import SimNewtonSensor
 from agency.AudioAgency import AudioAgency
 from agency.LanguageAgency import LanguageAgency
 from agency.PhysicalAgency import PhysicalAgency
+from agency.WheelchairAgency import WheelchairAgency
 
 class Simulator(Frame):
 
@@ -56,11 +57,13 @@ class Simulator(Frame):
 
         # create the chairbot
         chairbot = SimBot(self, 'Chairbot', self.humans['Randy'])
-        chairbot.addSensor(SimAudioSensor(chairbot))
-        chairbot.addSensor(SimNewtonSensor(chairbot))
-        chairbot.agent.addAgency(AudioAgency())
-        chairbot.agent.addAgency(LanguageAgency())
-        chairbot.agent.addAgency(PhysicalAgency())
+        chairbot.addSensor(SimAudioSensor(chairbot, 'ears'))
+        chairbot.addSensor(SimNewtonSensor(chairbot, 'seat'))
+        chairbot.agent.addAgency(AudioAgency(chairbot.agent))
+        chairbot.agent.addAgency(LanguageAgency(chairbot.agent))
+        chairbot.agent.addAgency(PhysicalAgency(chairbot.agent))
+        chairbot.agent.addAgency(WheelchairAgency(chairbot.agent))
+        chairbot.agent.specializedAgency = 'Wheelchair'
         self.bots['ChairBot'] = chairbot
 
     def initHumans(self):
@@ -82,8 +85,8 @@ class Simulator(Frame):
         self.parameterEntry = Entry(self.master, width=100)
         self.parameterEntry.grid(row=1, columnspan=2)
 
-        stimulateChairBotButton = Button(self.master, text='Stimulate-ChairBot', command=lambda: self.stimulateBot('ChairBot'))
-        stimulateChairBotButton.grid(row=2, column=0)
+        stimulateChairBotSeatNewton = Button(self.master, text='Stimulate-ChairBot-Seat-Newton', command=lambda: self.stimulateBot('ChairBot', 'seat'))
+        stimulateChairBotSeatNewton.grid(row=2, column=0)
         
         # output
         self.statusArea = Text(self.master, bg='#000000', fg='#ffffff')
@@ -92,12 +95,14 @@ class Simulator(Frame):
     def nextStep(self):
 
         for botKey in list(self.bots.keys()):
+
             self.bots[botKey].updateFromEnvironment()
+            self.bots[botKey].updateInternalState()
 
         self.audioQueue.clear()
 
         self.after(Simulator.stepInterval, self.nextStep)
 
-    def stimulateBot(self, bot):
+    def stimulateBot(self, bot, sensorName):
 
-        self.bots[bot].receiveStimuli(self.parameterEntry.get())
+        self.bots[bot].receiveStimuli(sensorName, self.parameterEntry.get())
